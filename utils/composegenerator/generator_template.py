@@ -52,5 +52,5 @@ yaml.SafeDumper.add_representer(
 )
 
 # Output_file
-output_file = open(os.path.join(sys.path[0],"docker-compose-env1.yml"), "w+", encoding='utf-8')
+output_file = open(os.path.join(sys.path[0],"docker-compose-env.yml"), "w+", encoding='utf-8')
 yaml.safe_dump(finalComposeFiledata, output_file, default_flow_style=False)
