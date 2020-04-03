@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import yaml
+from io import open
 import argparse
 import os,sys
 # Create the parser
