@@ -14,8 +14,8 @@ arg_parser.add_argument('--composefileaname', required=False, metavar='composefi
 # Execute the parse_args() method
 args = arg_parser.parse_args()
 
-srcComposeFile = open(os.path.join(sys.path[0],args.composefileaname), "r+", encoding='utf-8')
-tempateComposeFile = open(os.path.join(sys.path[0],"docker-compose-template.yml"), "r+", encoding='utf-8')
+srcComposeFile = open(os.path.join(sys.path[0],args.composefileaname), "r+")
+tempateComposeFile = open(os.path.join(sys.path[0],"docker-compose-template.yml"), "r+")
 finalComposeFiledata = yaml.load(srcComposeFile, Loader=yaml.FullLoader)
 tempateComposeFiledata = yaml.load(tempateComposeFile, Loader=yaml.FullLoader)
 srcComposeFile.close()
@@ -52,5 +52,5 @@ yaml.SafeDumper.add_representer(
 )
 
 # Output_file
-output_file = open(os.path.join(sys.path[0],"docker-compose-env.yml"), "w+", encoding='utf-8')
+output_file = open(os.path.join(sys.path[0],"docker-compose-env.yml"), "w+")
 yaml.safe_dump(finalComposeFiledata, output_file, default_flow_style=False)
