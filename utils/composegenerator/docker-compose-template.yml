@@ -7,15 +7,13 @@ services:
   template:
     deploy:
       labels:
-      - traefik.frontend.rule=${TRAEFIK_FRONTEND_HOST}
       - traefik.enable=true
-      - traefik.port=${TRAEFIK_PORT}
       - traefik.docker.network=${TRAEFIK_NETWORK}
       - traefik.tags=${TRAEFIK_TAGS}
-      - traefik.frontend.rateLimit.rateSet.test.period=1s
-      - traefik.frontend.rateLimit.rateSet.test.burst=30
-      - traefik.frontend.rateLimit.rateSet.test.average=10
-      - traefik.frontend.rateLimit.extractorFunc=client.ip
+      - traefik.http.middlewares.csr-ratelimit.ratelimit.average=20
+      - traefik.http.middlewares.csr-ratelimit.ratelimit.burst=30
+      - traefik.http.middlewares.csr-ratelimit.ratelimit.sourcecriterion.ipstrategy.depth=42
+      - traefik.http.middlewares.csr-ratelimit.ratelimit.sourcecriterion.requesthost=true
       replicas: ${NUMBER_REPLICAS}
       restart_policy:
         condition: ${SERVICE_RESTART_CONDITION}
