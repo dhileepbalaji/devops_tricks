@@ -1,0 +1,31 @@
+networks:
+  default:
+  traefik:
+    external: true
+    name: ${TRAEFIK_NETWORK}
+services:
+  template:
+    deploy:
+      labels:
+      - traefik.frontend.rule=${TRAEFIK_FRONTEND_HOST}
+      - traefik.enable=true
+      - traefik.port=${TRAEFIK_PORT}
+      - traefik.docker.network=${TRAEFIK_NETWORK}
+      - traefik.tags=${TRAEFIK_TAGS}
+      - traefik.frontend.rateLimit.rateSet.test.period=1s
+      - traefik.frontend.rateLimit.rateSet.test.burst=30
+      - traefik.frontend.rateLimit.rateSet.test.average=10
+      - traefik.frontend.rateLimit.extractorFunc=client.ip
+      replicas: ${NUMBER_REPLICAS}
+      restart_policy:
+        condition: ${SERVICE_RESTART_CONDITION}
+        delay: 10s
+      update_config:
+        delay: 30s
+        parallelism: 1
+    env_file: env_vars/${GO_STAGE_NAME}.env
+    image: ${REGISTRY}/${IMAGETAG}:${GO_REVISION}
+    networks:
+    - default
+    - traefik
+version: '3.7'
