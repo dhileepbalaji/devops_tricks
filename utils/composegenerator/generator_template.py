@@ -39,7 +39,7 @@ for service in finalComposeFiledata["services"].keys():
         finalComposeFiledata["services"][service]["deploy"] = tempateComposeFiledata["services"]["template"]["deploy"]
 
         # Appending Labels
-        finalComposeFiledata["services"][service]["deploy"]["labels"].append("traefik.http.routers."+ service + ".entrypoints=devhttp,devhttps")
+        finalComposeFiledata["services"][service]["deploy"]["labels"].append("traefik.http.routers."+ service + ".entrypoints=${TRAEFIK_ENTRYPOINT}")
         finalComposeFiledata["services"][service]["deploy"]["labels"].append("traefik.http.routers."+ service + ".service=" + service)
         finalComposeFiledata["services"][service]["deploy"]["labels"].append("traefik.http.routers."+ service + '.rule=${TRAEFIK_FRONTEND_HOST}')
         finalComposeFiledata["services"][service]["deploy"]["labels"].append("traefik.http.services."+ service + '.loadbalancer.server.port=${TRAEFIK_PORT}')
