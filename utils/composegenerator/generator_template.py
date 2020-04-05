@@ -43,16 +43,16 @@ for service in finalComposeFiledata["services"].keys():
         # Adding Deploy Section settings
         finalComposeFiledata["services"][service]["deploy"] = tempateComposeFiledata["services"]["template"]["deploy"]
 
-        if traefikservicename:
+        if args.traefikservicename:
             # Appending Labels
             finalComposeFiledata["services"][service]["deploy"]["labels"].append(
-                "traefik.http.routers." + traefikservicename + ".entrypoints=${TRAEFIK_ENTRYPOINT}")
+                "traefik.http.routers." + args.traefikservicename + ".entrypoints=${TRAEFIK_ENTRYPOINT}")
             finalComposeFiledata["services"][service]["deploy"]["labels"].append(
-                "traefik.http.routers." + traefikservicename + ".service=" + service)
+                "traefik.http.routers." + args.traefikservicename + ".service=" + service)
             finalComposeFiledata["services"][service]["deploy"]["labels"].append(
-                "traefik.http.routers." + traefikservicename + '.rule=${TRAEFIK_FRONTEND_HOST}')
+                "traefik.http.routers." + args.traefikservicename + '.rule=${TRAEFIK_FRONTEND_HOST}')
             finalComposeFiledata["services"][service]["deploy"]["labels"].append(
-                "traefik.http.services." + traefikservicename + '.loadbalancer.server.port=${TRAEFIK_PORT}')
+                "traefik.http.services." + args.traefikservicename + '.loadbalancer.server.port=${TRAEFIK_PORT}')
 
         # Appending Labels
         finalComposeFiledata["services"][service]["deploy"]["labels"].append(
