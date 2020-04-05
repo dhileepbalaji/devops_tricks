@@ -53,16 +53,17 @@ for service in finalComposeFiledata["services"].keys():
                 "traefik.http.routers." + args.traefikservicename + '.rule=${TRAEFIK_FRONTEND_HOST}')
             finalComposeFiledata["services"][service]["deploy"]["labels"].append(
                 "traefik.http.services." + args.traefikservicename + '.loadbalancer.server.port=${TRAEFIK_PORT}')
-
-        # Appending Labels
-        finalComposeFiledata["services"][service]["deploy"]["labels"].append(
-            "traefik.http.routers." + service + ".entrypoints=${TRAEFIK_ENTRYPOINT}")
-        finalComposeFiledata["services"][service]["deploy"]["labels"].append(
-            "traefik.http.routers." + service + ".service=" + service)
-        finalComposeFiledata["services"][service]["deploy"]["labels"].append(
-            "traefik.http.routers." + service + '.rule=${TRAEFIK_FRONTEND_HOST}')
-        finalComposeFiledata["services"][service]["deploy"]["labels"].append(
-            "traefik.http.services." + service + '.loadbalancer.server.port=${TRAEFIK_PORT}')
+        else:
+        
+            # Appending Labels
+            finalComposeFiledata["services"][service]["deploy"]["labels"].append(
+                "traefik.http.routers." + service + ".entrypoints=${TRAEFIK_ENTRYPOINT}")
+            finalComposeFiledata["services"][service]["deploy"]["labels"].append(
+                "traefik.http.routers." + service + ".service=" + service)
+            finalComposeFiledata["services"][service]["deploy"]["labels"].append(
+                "traefik.http.routers." + service + '.rule=${TRAEFIK_FRONTEND_HOST}')
+            finalComposeFiledata["services"][service]["deploy"]["labels"].append(
+                "traefik.http.services." + service + '.loadbalancer.server.port=${TRAEFIK_PORT}')
 
 
     else:
