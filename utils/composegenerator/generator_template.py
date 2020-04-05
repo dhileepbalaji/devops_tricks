@@ -9,8 +9,7 @@ arg_parser = argparse.ArgumentParser(description='Generate Compose file')
 arg_parser.add_argument('--servicename', required=True, metavar='servicename', type=str,
                         help='enter the service name used in compose file to add customization')
 arg_parser.add_argument('--traefikservicename', required=False, metavar='traefikservicename', type=str,
-                        default="traefiktestservicename",
-                        help='enter the src composefileaname to add customization')
+                         help='enter the src composefileaname to add customization')
 arg_parser.add_argument('--composefileaname', required=False, metavar='composefileaname', type=str,
                         default="docker-compose-env.yml",
                         help='enter the src composefileaname to add customization')
