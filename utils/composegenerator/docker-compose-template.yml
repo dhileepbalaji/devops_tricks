@@ -6,6 +6,9 @@ networks:
 services:
   template:
     deploy:
+      placement:
+        constraints:
+          - node.role == worker
       labels:
       - traefik.enable=true
       - traefik.docker.network=${TRAEFIK_NETWORK}
