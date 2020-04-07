@@ -60,9 +60,9 @@ for service in finalComposeFiledata["services"].keys():
 
             # Appending Labels
             finalComposeFiledata["services"][service]["deploy"]["labels"].append(
-                "traefik.http.routers." + args.traefikservicename + ".tls=${TRAEFIK_SSL_ENABLE}")
+                "traefik.http.routers." + service + ".tls=${TRAEFIK_SSL_ENABLE}")
             finalComposeFiledata["services"][service]["deploy"]["labels"].append(
-                "traefik.http.routers." + args.traefikservicename + ".tls.certresolver=${TRAEFIK_SSL_CERTRESOLVER}")         
+                "traefik.http.routers." + service + ".tls.certresolver=${TRAEFIK_SSL_CERTRESOLVER}")         
             finalComposeFiledata["services"][service]["deploy"]["labels"].append(
                 "traefik.http.routers." + service + ".entrypoints=${TRAEFIK_ENTRYPOINT}")
             finalComposeFiledata["services"][service]["deploy"]["labels"].append(
