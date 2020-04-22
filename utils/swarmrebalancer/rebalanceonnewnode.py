@@ -2,7 +2,7 @@
 
 ###########################################################
 #Note: Requires Python 3.5+                              ##
-#Version: 1.0                                            ##
+#Version: 1.1                                            ##
 #To filter manager serice add label manager.service=true ##
 ###########################################################
 from loguru import logger
@@ -10,7 +10,7 @@ import sys
 import os
 import subprocess
 import json
-import datetime
+import time
 
 #Log file PATH BASED ON OS
 #OS DETECTION
@@ -42,20 +42,18 @@ dockerServiceListProcess = subprocess.getoutput(dockerServiceList)
 
 
 for node in dockerNodeListProcess.splitlines():
-    logger.info("Running dockerNodeInspect,dockerNodeInspectJson in " + node)
-    dockerNodeInspect = subprocess.getoutput("docker node inspect " + node)
-    dockerNodeInspectJson = json.loads(dockerNodeInspect)
-    #print(dockerNodeInspectJson[0]["UpdatedAt"])
-    dockerNodeJoinTime = datetime.datetime.strptime(dockerNodeInspectJson[0]["UpdatedAt"][:25],
-                                                    '%Y-%m-%dT%H:%M:%S.%f')
-    currenTime15MinsAgo = datetime.datetime.now() - datetime.timedelta(minutes = 15)
-    #print(currenTime15MinsAgo)
-    logger.info("Comparing Node Join Time  in " + node)
-    if currenTime15MinsAgo < dockerNodeJoinTime:
-        logger.info("Node {node} Joined recently at {jtime}  ".format(node=node,jtime=dockerNodeJoinTime))
-        logger.info("Running Rebalance Commands in Services")
-        rebalanceService = True
-        newNodesJoined.append(node)
+    logger.info("Running dockerNodeInspect in " + node)
+    dockerNodeInspect = subprocess.getoutput(
+        "docker events --since '15m' --until '1s' --format '{{json .}}' --filter node=" + node +" | grep state | tail -1")
+    if dockerNodeInspect:
+        dockerNodeInspectJson = json.loads(dockerNodeInspect)
+        dockerNodeJoinTime = time.strftime("%a, %d %b %Y %H:%M:%S %Z", time.localtime(dockerNodeInspectJson["time"]))
+        if dockerNodeInspectJson["Actor"]["Attributes"]["state.new"].upper() == "ready".upper():
+            logger.info(
+                "Node {node} Joined recently at {jtime}  ".format(node=node,jtime=dockerNodeJoinTime))
+            logger.info("Running Rebalance Commands in Services")
+            rebalanceService = True
+            newNodesJoined.append(node)
     else:
         logger.info("Node not Joined Recently")
 
