@@ -13,10 +13,6 @@ services:
       - traefik.enable=true
       - traefik.docker.network=${TRAEFIK_NETWORK}
       - traefik.tags=${TRAEFIK_TAGS}
-      - traefik.http.middlewares.csr-ratelimit.ratelimit.average=20
-      - traefik.http.middlewares.csr-ratelimit.ratelimit.burst=30
-      - traefik.http.middlewares.csr-ratelimit.ratelimit.sourcecriterion.ipstrategy.depth=42
-      - traefik.http.middlewares.csr-ratelimit.ratelimit.sourcecriterion.requesthost=true
       replicas: ${NUMBER_REPLICAS}
       restart_policy:
         condition: ${SERVICE_RESTART_CONDITION}
