@@ -8,7 +8,7 @@ from __future__ import print_function
 import yaml
 import os
 import subprocess
-
+import sys
 #import tabulate
 
 #Read Pipeline Settings from yaml file
@@ -62,7 +62,6 @@ elif yamlConfig["replicas"] is not None and os.getenv('GO_STAGE_NAME') in "uat":
 elif yamlConfig["replicas"] is not None and os.getenv('GO_STAGE_NAME') in "prod":
     configemptyvalue('NUMBER_REPLICAS', yamlConfig["replicas"][os.getenv('GO_STAGE_NAME')],
                      "Error: replicas prod is empty in config ")
-
 else:
     print("Error: Replicas is not set in config file")
 
@@ -75,6 +74,13 @@ for env in ENV_LIST:
 #Deploy Stack
 dockerDeployStack = "docker stack deploy -c " + os.getenv('COMPOSE_FILE_NAME') + \
                     os.getenv('STACKNAME') + "_" + "${GO_STAGE_NAME}"
-
-dockerDeployStackProcess = subprocess.getoutput(dockerDeployStack)
+if (sys.version_info < (3, 0)):
+    # Python 2 code in this block
+    import commands
+    dockerDeployStackProcess = commands.getoutput(dockerDeployStack)
+else:
+    dockerDeployStackProcess = subprocess.getoutput(dockerDeployStack)
+    
+    
 print(dockerDeployStack)
+
