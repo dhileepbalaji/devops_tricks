@@ -72,15 +72,15 @@ for env in ENV_LIST:
     print("{:<40} {:<40}".format(env,os.getenv(env)))
 
 #Deploy Stack
-dockerDeployStack = "docker stack deploy -c " + os.getenv('COMPOSE_FILE_NAME') + \
-                    os.getenv('STACKNAME') + "_" + "${GO_STAGE_NAME}"
+dockerDeployStack = "docker stack deploy -c " + os.getenv('COMPOSE_FILE_NAME') + ' ' \
+                    + os.getenv('STACKNAME') + "_" + "${GO_STAGE_NAME}"
 if (sys.version_info < (3, 0)):
     # Python 2 code in this block
     import commands
     dockerDeployStackProcess = commands.getoutput(dockerDeployStack)
 else:
     dockerDeployStackProcess = subprocess.getoutput(dockerDeployStack)
-    
-    
-print(dockerDeployStack)
+
+
+print(dockerDeployStackProcess)
 
