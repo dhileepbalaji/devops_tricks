@@ -7,9 +7,10 @@ from __future__ import print_function
 ###############################################################
 import yaml
 import os
+#import tabulate
 
 #Read Pipeline Settings from yaml file
-swarmStackDeployConfig = "deploy.yml"
+swarmStackDeployConfig = "pipeline.yml"
 yamlConfigOpen = open(swarmStackDeployConfig, "r+")
 yamlConfig = yaml.load(yamlConfigOpen, Loader=yaml.FullLoader)
 yamlConfigOpen.close()
@@ -18,10 +19,11 @@ yamlConfigOpen.close()
 #os.environ['GO_STAGE_NAME'] = "dev"
 
 #Function to check handle yaml empty values and throw errors
-
+ENV_LIST = []
 def configemptyvalue(env,configkey,errormessage):
     if configkey is not None:
         os.environ[env] = str(configkey)
+        ENV_LIST.append(env)
     else:
         print(errormessage)
         exit(1)
@@ -64,4 +66,6 @@ else:
 
 
 
-
+print ("{:<40} {:<40}".format('ENV_NAME','VALUE'))
+for env in ENV_LIST:
+    print("{:<40} {:<40}".format(env,os.getenv(env)))
