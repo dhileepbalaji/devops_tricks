@@ -20,7 +20,7 @@ services:
       update_config:
         delay: 30s
         parallelism: 1
-    env_file: env_files/${GO_STAGE_NAME}.env
+    env_file: ${ENVFOLDER}/${GO_STAGE_NAME}.env
     image: ${REGISTRY}/${IMAGETAG}:${GO_REVISION}
     networks:
     - default
