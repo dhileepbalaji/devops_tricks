@@ -7,6 +7,8 @@ from __future__ import print_function
 ###############################################################
 import yaml
 import os
+import subprocess
+
 #import tabulate
 
 #Read Pipeline Settings from yaml file
@@ -33,7 +35,7 @@ def configemptyvalue(env,configkey,errormessage):
 configemptyvalue('STACKNAME',yamlConfig["stackname"],
                  "Error: stackname is empty in config ")
 #Set ENV: Docker envfolder from config
-configemptyvalue('ENVFODLER',yamlConfig["env_folder"],
+configemptyvalue('ENVFOLDER',yamlConfig["env_folder"],
                  "Error: env_folder is empty in config ")
 #Set ENV: Docker restart_policy from config
 configemptyvalue('SERVICE_RESTART_CONDITION',yamlConfig["restart_policy"],
@@ -65,7 +67,14 @@ else:
     print("Error: Replicas is not set in config file")
 
 
-
+#Print ENV
 print ("{:<40} {:<40}".format('ENV_NAME','VALUE'))
 for env in ENV_LIST:
     print("{:<40} {:<40}".format(env,os.getenv(env)))
+
+#Deploy Stack
+dockerDeployStack = "docker stack deploy -c " + os.getenv('COMPOSE_FILE_NAME') + \
+                    os.getenv('STACKNAME') + "_" + "${GO_STAGE_NAME}"
+
+dockerDeployStackProcess = subprocess.getoutput(dockerDeployStack)
+print(dockerDeployStack)
