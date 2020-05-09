@@ -67,6 +67,7 @@ pipelineFileOpen.close()
 
 # Check if vault retrival is enabled in pipeline config
 envAddedList = []
+tempFile = open('./tempvaultenv','w+')
 if pipelineConfig['vault']['enabled'] == True:
     secretKv = 'secrets/'  # change secret kv engine path
     secretEnv = os.getenv('GO_STAGE_NAME')
@@ -75,8 +76,9 @@ if pipelineConfig['vault']['enabled'] == True:
     for key in pipelineConfig['vault'][os.getenv('GO_STAGE_NAME')]:
         # Set env from vault
         os.environ[key] = getVaultSecrets(secretKv,secretPath,key)
-        print('export {key}={value}'.format(key=key,value=getVaultSecrets(secretKv,secretPath,key)))
+        tempFile.write('export ' + key + '=' +getVaultSecrets(secretKv,secretPath,key) )
         envAddedList.append(key)
+    tempFile.close() 
 
 #Print ENV
 print ("{:<40} {:<40}".format('ENV_NAME','Hashed_Value'))
