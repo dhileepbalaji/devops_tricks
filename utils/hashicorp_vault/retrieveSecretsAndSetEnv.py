@@ -14,7 +14,7 @@ import yaml
 def readVaultCreds(filename):
     if os.path.exists(filename):  # check if file exists or raise exception
         vaultCredsFile = filename
-        vaultConfigFileOpen = open(vaultCredsFile, "r+")
+        vaultConfigFileOpen = open(vaultCredsFile, "r")
         vaultConfigFileRead = yaml.load(vaultConfigFileOpen, Loader=yaml.FullLoader)
         vaultConfigFileOpen.close()
         vaultRole = vaultConfigFileRead['role-id']  # reading role id from secret
@@ -61,7 +61,7 @@ except Exception as Error:
 
 # Load list of variables to retrieved from vault using pipeline.yml
 pipelineFile = "pipeline.yml"
-pipelineFileOpen = open(pipelineFile, "r+")
+pipelineFileOpen = open(pipelineFile, "r")
 pipelineConfig = yaml.load(pipelineFileOpen, Loader=yaml.FullLoader)
 pipelineFileOpen.close()
 
