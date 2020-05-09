@@ -75,8 +75,9 @@ if pipelineConfig['vault']['enabled'] == True:
     secretPath = 'apps/' + "/" + secretEnv + '/' + secretFolder  # change secret kv engine sub path [here its apps]
     for key in pipelineConfig['vault'][os.getenv('GO_STAGE_NAME')]:
         # Set env from vault
-        os.environ[key] = getVaultSecrets(secretKv,secretPath,key)
-        tempFile.write('export ' + key + '=' + os.getenv[key] )
+        value = getVaultSecrets(secretKv,secretPath,key)
+        os.environ[key] = value
+        tempFile.write('export ' + key + '=' + value )
         envAddedList.append(key)
     tempFile.close() 
 
