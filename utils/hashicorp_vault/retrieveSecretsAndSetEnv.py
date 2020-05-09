@@ -77,7 +77,7 @@ if pipelineConfig['vault']['enabled'] == True:
         # Set env from vault
         value = getVaultSecrets(secretKv,secretPath,key)
         os.environ[key] = value
-        tempFile.write('export ' + key + '=' + value )
+        tempFile.write('export ' + key + '=' + value + '\n' )
         envAddedList.append(key)
     tempFile.close() 
 
