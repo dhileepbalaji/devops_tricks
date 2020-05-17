@@ -67,7 +67,7 @@ pipelineFileOpen.close()
 
 # Check if vault retrival is enabled in pipeline config
 envAddedList = []
-envFileName = pipelineConfig['env_folder'] + '/' + os.getenv('GO_STAGE_NAME')
+envFileName = pipelineConfig['env_folder'] + '/' + os.getenv('GO_STAGE_NAME') + '.env'
 envFile = open(envFileName,'w+')
 if pipelineConfig['vault']['enabled'] == True:
     secretKv = 'secrets/'  # change secret kv engine path
