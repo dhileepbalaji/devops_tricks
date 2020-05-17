@@ -77,7 +77,7 @@ if pipelineConfig['vault']['enabled'] == True:
     for key in pipelineConfig['vault'][os.getenv('GO_STAGE_NAME')]:
         # Set env from vault
         os.environ[key] = getVaultSecrets(secretKv,secretPath,key)
-        envFile.write(key + '=' +getVaultSecrets(secretKv,secretPath,key) )
+        envFile.write(key + '=' +getVaultSecrets(secretKv,secretPath,key) + '\n' )
         envAddedList.append(key)
 
 #Print ENV
