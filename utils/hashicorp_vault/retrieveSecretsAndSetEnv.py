@@ -8,10 +8,11 @@ import os
 # Created for GOCD Server                                 ##
 ###########################################################
 import hvac
+import os
 import yaml
 
 # function to read Vault role and secret id from docker secrets
-def readVaultCreds(filename):
+def readVaultCreds(filename: object, vaultCredsFile: object = None) -> object:
     if os.path.exists(filename):  # check if file exists or raise exception
         vaultCredsFile = filename
         vaultConfigFileOpen = open(vaultCredsFile, "r")
@@ -60,7 +61,11 @@ except Exception as Error:
     # raise ConnectionError('Not Connected to vault')
 
 # Load list of variables to retrieved from vault using pipeline.yml
-pipelineFile = "pipeline.yml"
+if os.getenv('PIPELINECONFIG') is None:
+    pipelineFile = "pipeline.yml"
+else:
+    pipelineFile =  os.getenv('PIPELINECONFIG')
+    
 pipelineFileOpen = open(pipelineFile, "r")
 pipelineConfig = yaml.load(pipelineFileOpen, Loader=yaml.FullLoader)
 pipelineFileOpen.close()
