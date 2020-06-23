@@ -26,7 +26,7 @@ tempateComposeFiledata = yaml.load(tempateComposeFile, Loader=yaml.FullLoader)
 srcComposeFile.close()
 
 for service in finalComposeFiledata["services"].keys():
-    print("Modifying service",service)
+    print("Modifying service",service,args.servicename)
     if service == args.servicename:
 
         # changing version
