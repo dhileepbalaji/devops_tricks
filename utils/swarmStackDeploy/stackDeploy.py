@@ -12,7 +12,10 @@ import sys
 #import tabulate
 
 #Read Pipeline Settings from yaml file
-swarmStackDeployConfig = "pipeline.yml"
+if os.getenv('PIPELINECONFIG') is None:
+    swarmStackDeployConfig = "pipeline.yml"
+else:
+    swarmStackDeployConfig =  os.getenv('PIPELINECONFIG')
 yamlConfigOpen = open(swarmStackDeployConfig, "r+")
 yamlConfig = yaml.load(yamlConfigOpen, Loader=yaml.FullLoader)
 yamlConfigOpen.close()
