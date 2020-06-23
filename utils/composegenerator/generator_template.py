@@ -2,6 +2,8 @@
 import yaml
 import argparse
 import os, sys
+from __future__ import print_function
+
 
 # Create the parser
 arg_parser = argparse.ArgumentParser(description='Generate Compose file')
@@ -24,6 +26,7 @@ tempateComposeFiledata = yaml.load(tempateComposeFile, Loader=yaml.FullLoader)
 srcComposeFile.close()
 
 for service in finalComposeFiledata["services"].keys():
+    print("Modifying service",service)
     if service == args.servicename:
 
         # changing version
