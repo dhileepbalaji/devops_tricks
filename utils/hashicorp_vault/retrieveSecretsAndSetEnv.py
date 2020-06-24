@@ -57,6 +57,7 @@ try:
     print("Success: Connected to Vault")
 except Exception as Error:
     print("Error: Connecting to Vault")
+    print(Error)
     exit(1)
     # raise ConnectionError('Not Connected to vault')
 
