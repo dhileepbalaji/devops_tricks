@@ -80,7 +80,7 @@ if pipelineConfig['vault']['enabled'] == True:
     secretEnv = os.getenv('GO_STAGE_NAME')
     secretFolder = pipelineConfig['vault']['name']
     secretPath = 'apps/' + "/" + secretEnv + '/' + secretFolder  # change secret kv engine sub path [here its apps]
-    for key in pipelineConfig['vault'][os.getenv('GO_STAGE_NAME')]:
+    for key in pipelineConfig['vault']['envs']:
         # Set env from vault
         os.environ[key] = getVaultSecrets(secretKv,secretPath,key)
         envFile.write(key + '=' +getVaultSecrets(secretKv,secretPath,key) + '\n' )
