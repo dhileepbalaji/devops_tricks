@@ -51,7 +51,7 @@ else:
 # Vault client setup and authentication
 vaultAddress = os.getenv('VAULT_URL')
 #vaultAddress = 'https://vault.example.local'
-client = hvac.Client(url=vaultAddress)
+client = hvac.Client(url=vaultAddress,verify=False)
 try:
     client.auth_approle(role_id=vaultRoleId, secret_id=vaultSecretId, mount_point='approle')
     print("Success: Connected to Vault")
