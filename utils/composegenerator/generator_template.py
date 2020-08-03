@@ -48,6 +48,8 @@ for service in finalComposeFiledata["services"].keys():
         if args.traefikservicename:
             # Appending Labels
             finalComposeFiledata["services"][service]["deploy"]["labels"].append(
+                "traefik.docker.network=${TRAEFIK_NETWORK}")
+            finalComposeFiledata["services"][service]["deploy"]["labels"].append(
                 "traefik.http.routers." + args.traefikservicename + ".tls=${TRAEFIK_SSL_ENABLE}")
             finalComposeFiledata["services"][service]["deploy"]["labels"].append(
                 "traefik.http.routers." + args.traefikservicename + ".tls.certresolver=${TRAEFIK_SSL_CERTRESOLVER}")                   
@@ -62,6 +64,8 @@ for service in finalComposeFiledata["services"].keys():
         else:
 
             # Appending Labels
+            finalComposeFiledata["services"][service]["deploy"]["labels"].append(
+                "traefik.docker.network=${TRAEFIK_NETWORK}")            
             finalComposeFiledata["services"][service]["deploy"]["labels"].append(
                 "traefik.http.routers." + service + ".tls=${TRAEFIK_SSL_ENABLE}")
             finalComposeFiledata["services"][service]["deploy"]["labels"].append(
